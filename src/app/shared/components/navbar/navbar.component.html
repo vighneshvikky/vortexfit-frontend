@@ -1,0 +1,31 @@
+<nav class="bg-blue-700 text-white shadow-lg">
+    <div class="container mx-auto px-6 py-3">
+        <div class="flex justify-between items-center">
+            <div class="text-2xl font-bold">VortexFit </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#" class="hover:text-blue-200">Home</a>
+                <a href="#" class="hover:text-blue-200">Trainers</a>
+                <a href="#" class="hover:text-blue-200">Services</a>
+                <a href="#" class="hover:text-blue-200">Pricing</a>
+                <a href="#" class="hover:text-blue-200">About Us</a>
+                <a  class="bg-white text-blue-700 px-4 py-2 rounded-lg hover:bg-blue-100 transition duration-300 font-medium"  (click)="navigateToRoleSelect()">Login</a>
+            </div>
+            <div class="md:hidden">
+                <button class="mobile-menu-button">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Mobile menu -->
+    <div class="mobile-menu hidden md:hidden">
+        <div class="container mx-auto px-6 py-3 space-y-2">
+            <a href="#" class="block py-2 px-4 hover:bg-blue-800">Home</a>
+            <a href="#" class="block py-2 px-4 hover:bg-blue-800">Trainers</a>
+            <a href="#" class="block py-2 px-4 hover:bg-blue-800">Services</a>
+            <a href="#" class="block py-2 px-4 hover:bg-blue-800">Pricing</a>
+            <a href="#" class="block py-2 px-4 hover:bg-blue-800">About Us</a>
+            <a  class="block py-2 px-4 mt-2 bg-white text-blue-700 rounded-lg hover:bg-blue-100 text-center"  (click)="navigateToRoleSelect()">Login</a>
+        </div>
+    </div>
+</nav>
