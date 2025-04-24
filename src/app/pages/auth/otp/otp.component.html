@@ -1,0 +1,36 @@
+<div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
+    <h2 class="text-2xl font-bold text-blue-800 mb-6 text-center">Verification Code</h2>
+    
+    <!-- Angular Form - keeping original structure intact -->
+    <form [formGroup]="otpForm" (ngSubmit)="verifyOtp()" class="space-y-6">
+        <div class="space-y-2">
+            <label for="otp" class="block text-sm font-medium text-blue-900">Enter OTP</label>
+            <input 
+                id="otp" 
+                formControlName="otp"
+                class="w-full px-4 py-3 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+            />
+        </div>
+        
+        <button 
+            type="submit" 
+            [disabled]="otpForm.invalid"
+            class="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 px-4 rounded-lg font-medium transition duration-300 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-md">
+            Verify
+        </button>
+    </form>
+    
+    <!-- Timer display - keeping original structure intact -->
+    <div class="mt-6 text-center">
+        <div *ngIf="!canResend" class="text-sm text-gray-600">
+            Resend available in <span class="font-semibold text-blue-600">{{ timer }}s</span>
+        </div>
+        
+        <button 
+            *ngIf="canResend" 
+            (click)="resendOtp()"
+            class="mt-2 text-blue-600 font-medium hover:text-blue-800 hover:underline transition duration-200">
+            Resend OTP
+        </button>
+    </div>
+</div>

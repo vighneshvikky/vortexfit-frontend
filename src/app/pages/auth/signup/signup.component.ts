@@ -9,7 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { MatchPassword } from '../../../shared/validators/match-password.validator';
 import { NotificationService } from '../../../shared/services/notification.service';
-// import { SignupService } from '../services/signup.service'; // your API service
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -19,12 +19,13 @@ import { NotificationService } from '../../../shared/services/notification.servi
 })
 export class SignupComponent implements OnInit {
   signupForm!: FormGroup;
-  role: 'user' | 'trainer' = 'user'; // default
+  role: 'user' | 'trainer' = 'user';
 
   constructor(
     private fb: FormBuilder,
-    private router: Router ,
-    private notificationService: NotificationService
+    private router: Router,
+    private notificationService: NotificationService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -40,42 +41,26 @@ export class SignupComponent implements OnInit {
     );
   }
 
-  // When user clicks on User/Trainer button
   setRole(role: 'user' | 'trainer') {
     this.role = role;
     this.signupForm.patchValue({ role });
-
-    // Optional: Clear or reset trainer-specific fields
-    if (role === 'user') {
-      this.signupForm.get('experience')?.reset();
-    }
   }
 
   onSubmit(): void {
-    console.log('hai');
     if (this.signupForm.valid) {
       const formData = this.signupForm.value;
-      this.notificationService.success('Signup successful!');
-      console.log('formData', formData);
-      this.signupForm.markAllAsTouched();
-      return;
+      this.authService.signup(formData).subscribe({
+        next: (response) => {
+          this.notificationService.success('Signup successfull!.');
+          this.router.navigate(['/verifyOtp'], {
+            state: { email: response.email },
+          });
+        },
+        error: (error) => {
+          this.notificationService.error('Signup Failed. Try again!');
+          console.log('Signup error:', error);
+        },
+      });
     }
-
-    const formData = this.signupForm.value;
-
-    // this.signupService.register(formData).subscribe({
-    //   next: (res) => {
-    //     // Success: Redirect based on role
-    //     if (this.role === 'trainer') {
-    //       this.router.navigate(['/trainer-dashboard']);
-    //     } else {
-    //       this.router.navigate(['/user-dashboard']);
-    //     }
-    //   },
-    //   error: (err) => {
-    //     // Show some alert/toast based on error
-    //     console.error('Signup failed:', err);
-    //   }
-    // });
   }
 }

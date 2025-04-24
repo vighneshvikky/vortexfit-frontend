@@ -40,3 +40,24 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Environment variables
+
+.env
+# Angular environments (To store  secrets or multiple environment configs)
+src/environments/*.ts
+
+# Compiled CSS/JS (especially when using SCSS or TypeScript)
+*.js
+*.js.map
+*.css
+*.css.map
+
+# Test results and reports
+/test-results/
+.jest/
+.nyc_output/
+
+# Optional: Cache folders
+.cache/
+.angular/cache/

@@ -10,6 +10,6 @@ import { Router } from '@angular/router';
 export class NavbarComponent {
   constructor(private router: Router){}
   navigateToRoleSelect(){
-    this.router.navigate(['/role-select']);
+    this.router.navigate(['/signup']);
   }
 }

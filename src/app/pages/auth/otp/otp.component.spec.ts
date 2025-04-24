@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RoleSelectComponent } from './role-select.component';
+import { OtpComponent } from './otp.component';
 
-describe('RoleSelectComponent', () => {
-  let component: RoleSelectComponent;
-  let fixture: ComponentFixture<RoleSelectComponent>;
+describe('OtpComponent', () => {
+  let component: OtpComponent;
+  let fixture: ComponentFixture<OtpComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RoleSelectComponent]
+      imports: [OtpComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RoleSelectComponent);
+    fixture = TestBed.createComponent(OtpComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
