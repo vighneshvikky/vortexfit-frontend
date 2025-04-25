@@ -7,7 +7,7 @@ export const routes: Routes = [
     ...authRoutes,
     {
         path: '**',
-        redirectTo: '', // or a 404 component
+        redirectTo: '', 
       }
       
 ];
