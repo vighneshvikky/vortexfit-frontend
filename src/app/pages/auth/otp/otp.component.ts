@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthService } from '../../../core/services/auth.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { CommonModule } from '@angular/common';
+import { Store } from '@ngrx/store';
+import * as UserAction from '../../../store/user/user.actions';
 
 @Component({
   selector: 'app-otp',
@@ -22,7 +24,8 @@ export class OtpComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private store: Store
   ) {
     const nav = this.router.getCurrentNavigation();
     console.log('nav', nav);
@@ -60,6 +63,7 @@ console.log('verifying')
       this.authService.verifyOtp(otpData).subscribe({
         next: (res) => {
           console.log('res', res);
+          this.store.dispatch(UserAction.setUser({user: res}));
           this.notification.success('OTP verified!.');
           this.router.navigate(['/login']);
         },
