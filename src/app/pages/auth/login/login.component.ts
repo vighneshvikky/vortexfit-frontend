@@ -32,7 +32,7 @@ export class LoginComponent {
         [
           Validators.required,
           Validators.minLength(6),
-          ValidationService.passwordStrength(), // Keep this as synchronous validation
+          ValidationService.passwordStrength(),
         ],
       ],
     });

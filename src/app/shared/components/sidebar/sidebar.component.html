@@ -1,0 +1,130 @@
+<div class="sidebar bg-gray-800 h-full overflow-y-auto" [class.w-64]="sidebarOpen" [class.w-20]="!sidebarOpen">
+    <div class="flex flex-col h-full">
+        <!-- Logo -->
+        <div class="px-4 py-6 flex items-center justify-between border-b border-gray-700">
+            <div class="flex items-center">
+                <div class="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center">
+                    <i class="fas fa-dumbbell text-white text-lg"></i>
+                </div>
+                <span class="ml-3 text-xl font-bold text-white" *ngIf="sidebarOpen">VortexFit</span>
+            </div>
+            <button (click)="toggleSidebar()" class="text-gray-400 hover:text-white">
+                <i class="fas" [class.fa-chevron-left]="sidebarOpen" [class.fa-chevron-right]="!sidebarOpen"></i>
+            </button>
+        </div>
+
+        <!-- Admin Info -->
+        <div class="px-4 py-4 border-b border-gray-700" *ngIf="sidebarOpen">
+            <div class="flex items-center">
+                <img [src]="adminImage" alt="Admin" class="w-10 h-10 rounded-full">
+                <div class="ml-3">
+                    <p class="text-sm font-medium text-white">{{ adminName }}</p>
+                    <p class="text-xs text-gray-400">{{ adminEmail }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 px-2 py-4">
+            <div class="space-y-1">
+                <!-- Dashboard -->
+                <a (click)="setActiveMenuItem('dashboard')" 
+                   class="flex items-center px-4 py-3 text-sm rounded-lg cursor-pointer"
+                   [class.bg-red-600]="activeMenuItem === 'dashboard'"
+                   [class.text-white]="activeMenuItem === 'dashboard'"
+                   [class.text-gray-400]="activeMenuItem !== 'dashboard'"
+                   [class.hover:bg-gray-700]="activeMenuItem !== 'dashboard'">
+                    <i class="fas fa-tachometer-alt w-5 text-center"></i>
+                    <span *ngIf="sidebarOpen" class="ml-3">Dashboard</span>
+                </a>
+
+                <!-- Users -->
+                <a (click)="setActiveMenuItem('users')" 
+                   class="flex items-center px-4 py-3 text-sm rounded-lg cursor-pointer"
+                   [class.bg-red-600]="activeMenuItem === 'users'"
+                   [class.text-white]="activeMenuItem === 'users'"
+                   [class.text-gray-400]="activeMenuItem !== 'users'"
+                   [class.hover:bg-gray-700]="activeMenuItem !== 'users'">
+                    <i class="fas fa-users w-5 text-center"></i>
+                    <span *ngIf="sidebarOpen" class="ml-3">Users</span>
+                </a>
+
+                <!-- Trainers -->
+                <a (click)="setActiveMenuItem('trainers')" 
+                   class="flex items-center px-4 py-3 text-sm rounded-lg cursor-pointer"
+                   [class.bg-red-600]="activeMenuItem === 'trainers'"
+                   [class.text-white]="activeMenuItem === 'trainers'"
+                   [class.text-gray-400]="activeMenuItem !== 'trainers'"
+                   [class.hover:bg-gray-700]="activeMenuItem !== 'trainers'">
+                    <i class="fas fa-dumbbell w-5 text-center"></i>
+                    <span *ngIf="sidebarOpen" class="ml-3">Trainers</span>
+                </a>
+
+                <!-- Verifications -->
+                <a (click)="setActiveMenuItem('verifications')" 
+                   class="flex items-center px-4 py-3 text-sm rounded-lg cursor-pointer"
+                   [class.bg-red-600]="activeMenuItem === 'verifications'"
+                   [class.text-white]="activeMenuItem === 'verifications'"
+                   [class.text-gray-400]="activeMenuItem !== 'verifications'"
+                   [class.hover:bg-gray-700]="activeMenuItem !== 'verifications'">
+                    <i class="fas fa-check-circle w-5 text-center"></i>
+                    <span *ngIf="sidebarOpen" class="ml-3">Verifications</span>
+                    <span *ngIf="sidebarOpen && pendingVerifications > 0" class="ml-auto bg-red-500 text-white text-xs py-1 px-2 rounded-full">{{ pendingVerifications }}</span>
+                </a>
+
+                <!-- Plans -->
+                <a (click)="setActiveMenuItem('plans')" 
+                   class="flex items-center px-4 py-3 text-sm rounded-lg cursor-pointer"
+                   [class.bg-red-600]="activeMenuItem === 'plans'"
+                   [class.text-white]="activeMenuItem === 'plans'"
+                   [class.text-gray-400]="activeMenuItem !== 'plans'"
+                   [class.hover:bg-gray-700]="activeMenuItem !== 'plans'">
+                    <i class="fas fa-list-alt w-5 text-center"></i>
+                    <span *ngIf="sidebarOpen" class="ml-3">Plans</span>
+                </a>
+
+                <!-- Earnings -->
+                <a (click)="setActiveMenuItem('earnings')" 
+                   class="flex items-center px-4 py-3 text-sm rounded-lg cursor-pointer"
+                   [class.bg-red-600]="activeMenuItem === 'earnings'"
+                   [class.text-white]="activeMenuItem === 'earnings'"
+                   [class.text-gray-400]="activeMenuItem !== 'earnings'"
+                   [class.hover:bg-gray-700]="activeMenuItem !== 'earnings'">
+                    <i class="fas fa-dollar-sign w-5 text-center"></i>
+                    <span *ngIf="sidebarOpen" class="ml-3">Earnings</span>
+                </a>
+
+                <!-- Notifications -->
+                <a (click)="setActiveMenuItem('notifications')" 
+                   class="flex items-center px-4 py-3 text-sm rounded-lg cursor-pointer"
+                   [class.bg-red-600]="activeMenuItem === 'notifications'"
+                   [class.text-white]="activeMenuItem === 'notifications'"
+                   [class.text-gray-400]="activeMenuItem !== 'notifications'"
+                   [class.hover:bg-gray-700]="activeMenuItem !== 'notifications'">
+                    <i class="fas fa-bell w-5 text-center"></i>
+                    <span *ngIf="sidebarOpen" class="ml-3">Notifications</span>
+                    <span *ngIf="sidebarOpen && unreadNotifications > 0" class="ml-auto bg-red-500 text-white text-xs py-1 px-2 rounded-full">{{ unreadNotifications }}</span>
+                </a>
+
+                <!-- Settings -->
+                <a (click)="setActiveMenuItem('settings')" 
+                   class="flex items-center px-4 py-3 text-sm rounded-lg cursor-pointer"
+                   [class.bg-red-600]="activeMenuItem === 'settings'"
+                   [class.text-white]="activeMenuItem === 'settings'"
+                   [class.text-gray-400]="activeMenuItem !== 'settings'"
+                   [class.hover:bg-gray-700]="activeMenuItem !== 'settings'">
+                    <i class="fas fa-cog w-5 text-center"></i>
+                    <span *ngIf="sidebarOpen" class="ml-3">Settings</span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Logout -->
+        <div class="px-4 py-4 border-t border-gray-700">
+            <a (click)="logout()" class="flex items-center px-4 py-3 text-sm text-gray-400 rounded-lg hover:bg-gray-700 cursor-pointer">
+                <i class="fas fa-sign-out-alt w-5 text-center"></i>
+                <span *ngIf="sidebarOpen" class="ml-3">Logout</span>
+            </a>
+        </div>
+    </div>
+</div> 
