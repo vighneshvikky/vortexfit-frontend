@@ -1,4 +1,4 @@
-// src/app/store/user/user.state.ts
+
 export interface UserState {
     user: {
       name: string;

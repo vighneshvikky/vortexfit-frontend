@@ -1,0 +1,23 @@
+<table>
+    <thead>
+      <tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Action</th></tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td [class.text-danger]="user.isBlocked">
+          {{ user.isBlocked ? 'Blocked' : 'Active' }}
+        </td>
+        <td>
+          <button 
+            (click)="toggleBlock(user)"
+            [class.btn-danger]="!user.isBlocked"
+            [class.btn-success]="user.isBlocked">
+            {{ user.isBlocked ? 'Unblock' : 'Block' }}
+          </button>
+        </td>
+      </tr>
+    </tbody>
+</table>

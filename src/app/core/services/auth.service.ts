@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, finalize, Observable, tap } from 'rxjs';
 import { LoginResponse } from '../../pages/auth/interface/auth.interface';
 import {
   ResendOtpRequest,
@@ -16,7 +16,6 @@ export class AuthService {
   readonly apiUrl = 'http://localhost:3001/auth';
   constructor(private http: HttpClient, private router: Router) {}
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
-  private isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
   signup(data: SignupRequest): Observable<any> {
     return this.http.post(`${this.apiUrl}/signup`, data);
@@ -38,7 +37,7 @@ export class AuthService {
       )
       .pipe(
         tap((response) => {
-          console.log('response =>', response)
+          console.log('response =>', response);
           this.isAuthenticatedSubject.next(true);
           if (response.user.role === 'user') {
             this.router.navigate(['/user-dashboard']);
@@ -53,15 +52,17 @@ export class AuthService {
 
   refreshAccessToken() {
     console.log('Refreshing token...');
-    return this.http.post(`${this.apiUrl}/validateRefreshToken`, {}, {withCredentials: true});
+    return this.http.post(
+      `${this.apiUrl}/validateRefreshToken`,
+      {},
+      { withCredentials: true }
+    );
   }
 
-    
-    getAccessToken(): string | null {
-      const match = document.cookie.match(new RegExp('(^| )accessToken=([^;]+)'));
-      return match ? match[2] : null;
-    }
-  
+  getAccessToken(): string | null {
+    const match = document.cookie.match(new RegExp('(^| )accessToken=([^;]+)'));
+    return match ? match[2] : null;
+  }
 
   // logout(): void {
   //   this.http.post('/api/auth/logout', {}).subscribe(() => {
@@ -70,11 +71,22 @@ export class AuthService {
   //   });
   // }'
 
-
-
   logout(): void {
     // Clear tokens and redirect to login
-    document.cookie = 'access_token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    document.cookie = 'refresh_token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie =
+      'access_token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie =
+      'refresh_token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  }
+
+  adminLogin(
+    email: string,
+    password: string
+  ): Observable<{ users: any[]; success: boolean }> {
+    return this.http.post<{ users: any[]; success: boolean }>(
+      `${this.apiUrl}/adminLogin`,
+      { email, password },
+      { withCredentials: true }
+    );
   }
 }
