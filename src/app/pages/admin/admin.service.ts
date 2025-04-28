@@ -38,7 +38,7 @@ export class AdminService {
     console.log('userId', userId)
     console.log('isBlocked', isBlocked)
     console.log('role', role)
-    return this.http.patch(`${this.apiUrl}/${userId}/status/${role}`, {isBlocked})
+    return this.http.patch(`${this.apiUrl}/users/${role}/${userId}/status`, {isBlocked})
   }
   
 }
