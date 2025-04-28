@@ -42,7 +42,9 @@ export class AuthService {
           if (response.user.role === 'user') {
             this.router.navigate(['/user-dashboard']);
           } else if (response.user.role === 'trainer') {
-            this.router.navigate(['/trainer-dashboard']);
+            console.log('logining to => trainer details');
+            console.log('resonos', response.user._id);
+            this.router.navigate(['/trainer-details', response.user._id]);
           } else {
             this.router.navigate(['/']);
           }
@@ -50,13 +52,16 @@ export class AuthService {
       );
   }
 
-  refreshAccessToken() {
-    console.log('Refreshing token...');
-    return this.http.post(
-      `${this.apiUrl}/validateRefreshToken`,
-      {},
-      { withCredentials: true }
-    );
+  refreshAccessToken(): Observable<any> {
+    return this.http
+      .post(`${this.apiUrl}/refresh`, {}, { withCredentials: true })
+      .pipe(
+        tap((response: any) => {
+          if (response && response.accessToken) {
+            document.cookie = `accessToken=${response.accessToken}; path=/`;
+          }
+        })
+      );
   }
 
   getAccessToken(): string | null {
@@ -64,19 +69,13 @@ export class AuthService {
     return match ? match[2] : null;
   }
 
-  // logout(): void {
-  //   this.http.post('/api/auth/logout', {}).subscribe(() => {
-  //     this.isAuthenticatedSubject.next(false);
-  //     this.router.navigate(['/login']);
-  //   });
-  // }'
-
   logout(): void {
-    // Clear tokens and redirect to login
     document.cookie =
-      'access_token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+      'accessToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     document.cookie =
-      'refresh_token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+      'refreshToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    this.isAuthenticatedSubject.next(false);
+    this.router.navigate(['/login']);
   }
 
   adminLogin(

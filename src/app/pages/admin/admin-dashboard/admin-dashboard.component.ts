@@ -48,8 +48,8 @@ export class AdminDashboardComponent implements OnInit {
     this.adminService.getUsers().subscribe({
       next: (response) => {
         this.allUsers = [
-          ...response.users.map(user => this.mapUserToInterface(user)),
-          ...response.trainers.map(user => this.mapUserToInterface(user))
+          ...(response.users || []).map(user => this.mapUserToInterface(user)),
+          ...(response.trainers || []).map(user => this.mapUserToInterface(user))
         ];
         console.log('Loaded users:', this.allUsers);
         this.isLoading = false;

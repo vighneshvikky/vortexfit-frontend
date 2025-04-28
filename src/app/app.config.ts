@@ -7,10 +7,12 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { routes } from './app.routes';
-import { TokenInterceptor } from './core/interceptors/auth-interceptor';
 import { provideState, provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { userReducer } from './store/user/user.reducer';
+import { provideToastr, ToastrModule } from 'ngx-toastr';
+import { authInterceptor } from './core/interceptors/auth.interceptor';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,6 +21,8 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideStore(),
     provideEffects(),
-    provideState({name: 'user', reducer: userReducer})
-],
+    provideState({name: 'user', reducer: userReducer}),
+    provideToastr(),
+    provideAnimations()
+  ]
 };
